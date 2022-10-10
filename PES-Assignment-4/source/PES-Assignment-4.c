@@ -39,6 +39,7 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+#include "app.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
