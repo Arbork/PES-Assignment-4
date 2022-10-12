@@ -21,12 +21,23 @@
 #define false			0
 #define true			1
 
-#define ms_ticks			5300
-#define PWM_MAX				0xff
-#ifdef DEBUG
+#define ms_ticks				5300
+#define PWM_MAX					0xff
+#define STATE_TRANSITION		16
+#define DELAY_65MS				1
+#define TOUCH_NOISE_THRESHOLD	50
+#define CROSS_DELAY				160
+#define CROSS_OFF_TICKS			4
+#define CROSS_ON_TICKS			12
+#define TOUCH_POLL_MASK			0b1
+
+
+#ifndef DEBUG
 	#define STATE_DELAY		320
+	#define WARN_DELAY		80
 #else
 	#define	STATE_DELAY 	80
+	#define WARN_DELAY		48
 #endif
 
 typedef enum{
@@ -50,15 +61,13 @@ typedef enum{
  * @param 	milliseconds	The number of milliseconds to delay for
  * @return	void
  */
-void delay(uint32_t milliseconds);
+void delay(uint32_t systicks);
+
+void transition(uint8_t final_red, uint8_t final_green, uint8_t final_blue);
 
 void app_init(void);
 
-void GO_transition(void);
-
-void STOP_transition(void);
-
-void WARN_transition(void);
+void app_loop(void);
 
 void cross_handler(void);
 

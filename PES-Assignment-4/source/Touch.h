@@ -18,7 +18,7 @@
 #define TSI_TSIEN		TSI_GENCS_TSIEN_MASK
 #define TSI_TSIIEN		TSI_GENCS_TSIIEN_MASK(0b0)
 #define TSI_EOSF		TSI_GENCS_EOSF_MASK
-
+#define NOISE_TOLERANCE	20
 /*
  * 	@brief Set up the touchpad for use
  *

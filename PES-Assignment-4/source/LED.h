@@ -50,8 +50,42 @@
 
 #define CROSS_RED		0x00
 #define CROSS_GREEN		0x10
-#define CROSS_Blue		0x30
+#define CROSS_BLUE		0x30
+
+#define COLOR_OFF		0
+
+// The following defines are the different transitions
+#define WARN_STOP_DELTA_R	((STOP_RED - WARN_RED) / 16)
+#define WARN_STOP_DELTA_G 	((STOP_GREEN - WARN_GREEN) / 16)
+#define WARN_STOP_DELTA_B	((STOP_BLUE - WARN_BLUE) / 16)
+
+// GO to Warn
+#define GO_WARN_DELTA_R		((WARN_RED - GO_RED) / 16)
+#define GO_WARN_DELTA_G		((WARN_GREEN - GO_GREEN) / 16)
+#define GO_WARN_DELTA_B		((WARN_BLUE - GO_BLUE) / 16)
+
+// Stop to GO
+#define STOP_GO_DELTA_R		((GO_RED - STOP_RED) / 16)
+#define STOP_GO_DELTA_G		((GO_GREEN - STOP_GREEN) / 16)
+#define STOP_GO_DELTA_B		((GO_BLUE - STOP_BLUE) / 16)
+
+// Cross to GO, (negative GO to Cross)
+#define CROSS_GO_DELTA_R	(GO_RED / 16)
+#define CROSS_GO_DELTA_G	((GO_GREEN - CROSS_GREEN) / 16)
+#define CROSS_GO_DELTA_B	((GO_BLUE - CROSS_BLUE) / 16)
+
+// Warn to CROSS
+#define	WARN_CROSS_DELTA_R	((CROSS_RED - WARN_RED) / 16)
+#define	WARN_CROSS_DELTA_G	((CROSS_GREEN - WARN_GREEN) / 16)
+#define WARN_CROSS_DELTA_B	((CROSS_BLUE - WARN_BLUE) / 16)
+
+// Cross to
+#define STOP_CROSS_DELTA_R	((CROSS_RED - STOP_RED) / 16)
+#define STOP_CROSS_DELTA_G	((CROSS_GREEN - STOP_GREEN) / 16)
+#define STOP_CROSS_DELTA_B	((CROSS_BLUE - STOP_BLUE) / 16)
 ///////////////////////////////////////////////////////////
+// TPM Defines
+#define	TPM_PERIOD		0xff
 
 typedef struct{
 	uint8_t R;
@@ -62,5 +96,8 @@ typedef struct{
 
 void LED_init(void);
 
+void set_LED_PWM(uint8_t Red, uint8_t Green, uint8_t Blue);
+
+void TPM_init(void);
 
 #endif /* LED_H_ */

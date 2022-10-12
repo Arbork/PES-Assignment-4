@@ -29,11 +29,14 @@ void touch_setup(void){
 	SIM->SCGC5 |= SIM_SCGC5_TSI_MASK;
 
 	// Clear the GENCS
-	TSI0->GENCS = 0;
-	// Enable the TSI periphal, clear the scan flag, and specify that we want to scan electrodes 32 times
-	TSI0->GENCS |= TSI_TSIEN;
-	TSI0->GENCS |= TSI_EOSF;
-	TSI0->GENCS |= TSI_NSCN;
+	TSI0->GENCS = 	TSI_GENCS_MODE(0u) | //operating in non-noise mode
+					TSI_GENCS_REFCHRG(0u) | //reference oscillator charge and discharge value 500nA
+					TSI_GENCS_DVOLT(0u) | //oscillator voltage rails set to default
+					TSI_GENCS_EXTCHRG(0u) | //electrode oscillator charge and discharge value 500nA
+					TSI_GENCS_PS(0u) |  // frequency clcok divided by one
+					TSI_GENCS_NSCN(31u) | //scanning the electrode 32 times
+					TSI_GENCS_TSIEN_MASK | //enabling the TSI module
+					TSI_GENCS_EOSF_MASK; // writing one to clear the end of scan flag
 
 	offset = (uint32_t)scan_touchpad();
 
@@ -63,7 +66,8 @@ uint16_t scan_touchpad(void){
 	TSI0->DATA |= TSI_DATA_SWTS_MASK;
 
 	// A busy loop that waits for the scan to complete 32 times
-	while((TSI0->GENCS & TSI_EOSF) != TSI_EOSF){}
+	while(!(TSI0->GENCS & TSI_GENCS_EOSF_MASK));
+
 
 	// Bit mask the data (lower 16 bits) from the data register
 	data = (TSI0->DATA & 0xFFFF);
