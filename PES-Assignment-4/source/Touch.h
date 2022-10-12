@@ -1,8 +1,10 @@
 /*
- * Touch.h
+ * @file 	Touch.h
+ * @brief 	Macros used for touch-pad functionality and functions
  *
- *  Created on: Oct 9, 2022
- *      Author: zande
+ * @author 	Alexander Bork
+ * @date 	Oct 8, 2022
+ * @version 1.0
  */
 
 #ifndef TOUCH_H_
@@ -19,6 +21,8 @@
 #define TSI_TSIIEN		TSI_GENCS_TSIIEN_MASK(0b0)
 #define TSI_EOSF		TSI_GENCS_EOSF_MASK
 #define NOISE_TOLERANCE	20
+
+
 /*
  * 	@brief Set up the touchpad for use
  *
@@ -33,6 +37,8 @@
  *	@return void
  */
 void touch_setup();
+
+
 
 /*
  * @brief Read the value from the touchpad

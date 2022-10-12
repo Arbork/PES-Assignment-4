@@ -28,10 +28,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * @file    PES-Assignment-4.c
- * @brief   Application entry point.
+/*
+ * @file 	PES-Assignment-4.c
+ * @brief 	Entry point of program
+ *
+ * @author 	Alexander Bork
+ * @date 	October 8th, 2022
+ * @version 1.0
  */
+
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -40,12 +45,12 @@
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
 #include "app.h"
-/* TODO: insert other include files here. */
-
-/* TODO: insert other definitions and declarations here. */
 
 /*
  * @brief   Application entry point.
+ *
+ * @params	None
+ * @return 	0
  */
 int main(void) {
 
@@ -57,8 +62,11 @@ int main(void) {
     /* Init FSL debug console. */
     BOARD_InitDebugConsole();
 #endif
-
+    // Initialize the application
     app_init();
+#ifdef DEBUG
+    logger("Beginning Main Loop!\r\n");
+#endif
     app_loop();
     return 0;
 }

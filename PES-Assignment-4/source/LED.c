@@ -1,22 +1,22 @@
 /*
- * LED.c
+ * @file 	LED.c
+ * @brief 	Implement PWM LED drive
  *
- *  Created on: Oct 9, 2022
- *      Author: zande
+ * @author 	Alexander Bork
+ * @date 	October 8th, 2022
+ * @version 1.0
  */
 
 
 #include "LED.h"
 
-// Do I need?
-//static LED_color_t colors;
 
 /*
  * @brief	Initialize the GPIO ports, pins, and clocks
  *
  * 		This function initializes all of the functionality required for the GPIO pins that the
  * 	LEDs are on. It enables the clock for the ports that the LEDs are on, clears the PCR registers
- * 	for each LEDs ports, sets the PCR mux for each LED, and sets each LED to be an output.
+ * 	for each LEDs ports, sets the PCR mux for each LED.
  *
  * 	@params	None
  * 	@return	None
@@ -37,14 +37,19 @@ void LED_init(void){
 	LED_GREEN_PORT->PCR[LED_GREEN_PIN] |= PORT_PCR_MUX(3);
 	LED_RED_PORT->PCR[LED_RED_PIN] |= PORT_PCR_MUX(3);
 
-	// Set each LED to an output
-//	GPIOB->PDDR |= (1 << LED_RED_PIN);
-//	GPIOB->PDDR |= (1 << LED_GREEN_PIN);
-//	GPIOD->PDDR |= (1 << LED_BLUE_PIN);
-
-	return;
 }
 
+
+/*
+ * @brief Initialize the TPM for the LEDs
+ *
+ *		Configure TPM0 and 2 to be used in PWM control of the three LEDs.
+ *		Use a 48MHz input clock, set a period of 255 with an initial count value of 0.
+ *		At the end, initialize the colors to be the STOP colors.
+ *
+ * @params	None
+ * @return	void
+ */
 void TPM_init(void){
 	// Configure both TPM0 and 2
 	SIM->SCGC6 |= SIM_SCGC6_TPM0_MASK;
@@ -76,8 +81,13 @@ void TPM_init(void){
 }
 
 /*
- * EDIT AND VERIFY THIS
- * Make sure that it is a critical section so that all three duty cycles are synchronized
+ * @brief	Alter the PWM duty cycle of the LEDs
+ *
+ * 		Whenever a new CnV value is set, the TPM counter is reset. So all 3 LEDs will be driven synchronously
+ * 		with the duty cycle of the input value/255
+ *
+ * @params	Red, Green, Blue	- 8 bit values for the count value to be used for each colors PWM
+ * @return 	void
  */
 void set_LED_PWM(uint8_t Red, uint8_t Green, uint8_t Blue){
 	TPM2->CONTROLS[0].CnV = Red;	// Sets duty cycle to be (Red/0xff)

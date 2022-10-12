@@ -9,6 +9,7 @@
 
 #include "touch.h"
 
+// An initial value from the sensor for when nothing is touching it
 static uint32_t offset = 0;
 
 /*

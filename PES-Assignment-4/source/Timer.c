@@ -1,8 +1,10 @@
 /*
- * Timer.c
+ * @file 	Timer.c
+ * @brief 	Functions to keep track of time in project
  *
- *  Created on: Oct 9, 2022
- *      Author: zande
+ * @author 	Alexander Bork
+ * @date 	October 8th, 2022
+ * @version 1.0
  */
 
 
@@ -13,7 +15,12 @@ volatile ticktime_t timeSinceBoot = 0;
 
 
 /*
+ * @brief	Initializing the SysTick counter
  *
+ * 		Sets the counter value and irq priority then enables Systick
+ *
+ * @params	None
+ * @return	void
  */
 void init_systick(void){
 	SysTick->LOAD = SYS_COUNTER;
@@ -23,30 +30,46 @@ void init_systick(void){
 }
 
 /*
+ * @brief	Returns the time since startup
  *
+ * @params 	None
+ * @return	timeSinceBoot	- The time since bootup
  */
 ticktime_t now(void){
 	return timeSinceBoot;
 }
 
 /*
+ * @brief	Reset the tiemr
  *
+ * 		Sets TSR to be TSB so that get_timer returns 0
+ * @params	None
+ * @return	void
  */
 void reset_timer(void){
 	timeSinceReset = timeSinceBoot;
 }
 
 /*
+ * @brief	Get the difference btwn TSB and TSR
  *
+ * @params	None
+ * @return	The difference in time between TSB and TSR
  */
 ticktime_t get_timer(void){
 	return (timeSinceBoot - timeSinceReset);
 }
 
+/*
+ * @brief The interrupt handler for Systick
+ *
+ * 		Increments time since boot every interrupt
+ *
+ * @params	None
+ * @return	void
+ */
 void SysTick_Handler(void){
-
 	timeSinceBoot++;
-
 }
 
 
